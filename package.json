@@ -13,8 +13,7 @@
     "dependencies": {
         "bs58": "^6.0.0",
         "dotenv": "^17.2.0",
-        "encifher-defi-sdk": "^1.0.3",
-        "encifher-swap-sdk": "^1.0.1",
+        "encifher-swap-sdk": "^1.0.2",
         "tweetnacl": "^1.0.3"
     }
 }
