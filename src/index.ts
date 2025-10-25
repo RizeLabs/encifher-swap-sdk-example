@@ -38,7 +38,7 @@ const main = async () => {
     const depositParams: DepositParams = {
         token: tokenIn,
         depositor: publicKey,
-        amount: '0.1', 
+        amount: '100000', // 0.1 USDC 
     };
 
     // constructing and sending deposit transaction
@@ -55,15 +55,12 @@ const main = async () => {
             depositTxn.serialize(),
             {
                 minContextSlot,
+                preflightCommitment: 'confirmed'
             }
         );
 
         await connection.confirmTransaction(
-            {
-                blockhash,
-                lastValidBlockHeight,
-                signature: txSignature,
-            },
+            txSignature,
             "confirmed"
         );
     } catch (err) {
@@ -73,23 +70,30 @@ const main = async () => {
     // --- WITHDRAW DEMO ---
     const withdrawParams: WithdrawParams = {
         token: tokenIn,
-        amount: '0.005', // withdrawing/unwrapping 0.005 tokens
+        amount: '100000', // withdrawing/unwrapping 0.1 USDC
         withdrawer: publicKey,
     };
 
     try {
         const withdrawTxn = await defiClient.getWithdrawTxn(withdrawParams);
 
-        // Sign the transaction
-        withdrawTxn.partialSign(userKeyPair);
+        const {
+            context: { slot: minContextSlot },
+            value: { blockhash, lastValidBlockHeight },
+        } = await connection.getLatestBlockhashAndContext();
 
-        // Send the transaction
-        const txid = await connection.sendRawTransaction(withdrawTxn.serialize());
-        console.log('Withdraw Transaction Signature:', txid);
+        const txSignature = await connection.sendRawTransaction(
+            withdrawTxn.serialize(),
+            {
+                minContextSlot,
+                preflightCommitment: 'confirmed'
+            }
+        );
 
-        // Optionally, confirm the transaction
-        const confirmation = await connection.confirmTransaction(txid, 'confirmed');
-        console.log('Confirmation:', confirmation);
+        await connection.confirmTransaction(
+            txSignature,
+            "confirmed"
+        );
     } catch (err) {
         console.error('Withdraw failed:', err);
     }
@@ -180,8 +184,6 @@ const main = async () => {
     } catch (err) {
         console.error('Balance failed:', err);
     }
-
-
 };
 
 main();
