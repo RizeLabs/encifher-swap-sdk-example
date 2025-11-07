@@ -38,7 +38,7 @@ const main = async () => {
     const depositParams: DepositParams = {
         token: tokenIn,
         depositor: publicKey,
-        amount: '100000', // 0.1 USDC 
+        amount: '1000000', // 1 USDC 
     };
 
     // constructing and sending deposit transaction
@@ -76,7 +76,10 @@ const main = async () => {
 
     try {
         const withdrawTxn = await defiClient.getWithdrawTxn(withdrawParams);
-
+        
+        // Sign the transaction
+        withdrawTxn.partialSign(userKeyPair);
+        
         const {
             context: { slot: minContextSlot },
             value: { blockhash, lastValidBlockHeight },
@@ -102,7 +105,7 @@ const main = async () => {
     const quoteParams = {
         inMint: tokenIn.tokenMintAddress,
         outMint: tokenOut.tokenMintAddress, // For demo, use same token; replace with real outMint for real swaps
-        amountIn: '10000', // Example:  swapping 0.01 tokenIn to tokenOout
+        amountIn: '500000', // Example: swapping 0.5 USDC to tokenOut
     };
 
     try {
@@ -116,7 +119,7 @@ const main = async () => {
     const swapParams = {
         inMint: tokenIn.tokenMintAddress,
         outMint: tokenOut.tokenMintAddress, // For demo, use same token; replace with real outMint for real swaps
-        amountIn: '1000', // Example: 0.00001 tokens (in base units)
+        amountIn: '500000', // Example: 0.5 USDC
         senderPubkey: publicKey,
         receiverPubkey: publicKey, // For demo, send to self
     };
@@ -124,7 +127,7 @@ const main = async () => {
     let swapTxn;
     try {
         swapTxn = await defiClient.getSwapTxn(swapParams);
-        console.log('This is swap txn', swapTxn);
+        console.log('Swap txn', swapTxn);
     } catch (err) {
         console.error('Swap txn failed:', err);
     }
@@ -138,7 +141,7 @@ const main = async () => {
         orderDetails: {
             inMint: tokenIn.tokenMintAddress,
             outMint: tokenOut.tokenMintAddress,
-            amountIn: '1000',
+            amountIn: '500000',
             senderPubkey: publicKey,
             receiverPubkey: publicKey,
             message: ""
@@ -179,8 +182,8 @@ const main = async () => {
         const msgPayload = await defiClient.getMessageToSign();
         const sigBuff = nacl.sign.detached(Buffer.from(msgPayload.msgHash), userKeyPair.secretKey);
         const signature = Buffer.from(sigBuff).toString('base64');
-        const userBalance = await defiClient.getBalance(publicKey, { signature, ...msgPayload }, tokenIn.tokenMintAddress, encifherKey);
-        console.log('User balance for a particular token', publicKey.toBase58(), userBalance);
+        const userBalance = await defiClient.getBalance(publicKey, { signature, ...msgPayload }, [tokenIn.tokenMintAddress, tokenOut.tokenMintAddress], encifherKey);
+        console.log('User balance for a tokens', publicKey.toBase58(), userBalance);
     } catch (err) {
         console.error('Balance failed:', err);
     }
