@@ -144,7 +144,6 @@ const main = async () => {
             amountIn: '500000',
             senderPubkey: publicKey,
             receiverPubkey: publicKey,
-            message: ""
         }
     };
 
