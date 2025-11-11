@@ -92,11 +92,18 @@ const main = async () => {
             const orderStatusParams: OrderStatusParams = {
                 orderStatusIdentifier: executeResponse.orderStatusIdentifier!
             }
-            const status = await defiClient.getOrderStatus(orderStatusParams);
+            const { status } = await defiClient.getOrderStatus(orderStatusParams);
             console.log(`Attempt ${i}, status fetched: ${status}`);
-            if (status.status === 'completed') {
-                console.log('Order Completed');
-                break;
+            switch (status) {
+                case 'completed':
+                    console.log('Order Completed');
+                    break;
+                case 'swap_failed':
+                    console.log('Swap failed, slippage too low');
+                    break;
+                case 'withdrawal_fallback':
+                    console.log('Swap reverted, please try again');
+                    break;
             }
             await new Promise(resolve => setTimeout(resolve, 3000));
         } catch (err) {
