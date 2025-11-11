@@ -70,7 +70,7 @@ const main = async () => {
         orderDetails: {
             inMint: tokenIn.tokenMintAddress,
             outMint: tokenOut.tokenMintAddress,
-            amountIn: '500000',
+            amountIn: swapAmount,
             senderPubkey: userKeyPair.publicKey,
             receiverPubkey: userKeyPair.publicKey,
         }
