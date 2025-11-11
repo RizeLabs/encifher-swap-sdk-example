@@ -3,8 +3,10 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "dev": "ts-node src/index.ts",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "balance": "ts-node src/fetchBalance.ts",
+        "deposit": "ts-node src/deposit.ts",
+        "withdraw": "ts-node src/withdraw.ts",
+        "swap": "ts-node src/swap.ts"
     },
     "keywords": [],
     "author": "",
@@ -15,5 +17,8 @@
         "dotenv": "^17.2.0",
         "encifher-swap-sdk": "^1.0.3",
         "tweetnacl": "^1.0.3"
+    },
+    "devDependencies": {
+        "ts-node": "^10.9.2"
     }
 }
