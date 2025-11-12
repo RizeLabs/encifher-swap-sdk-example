@@ -1,5 +1,5 @@
 import { DefiClient, DefiClientConfig, WithdrawParams, Token } from 'encifher-swap-sdk';
-import { Keypair, Connection, sendAndConfirmTransaction } from '@solana/web3.js';
+import { Keypair, Connection, sendAndConfirmTransaction, PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
 import dotenv from 'dotenv';
 import nacl from 'tweetnacl';
@@ -18,7 +18,7 @@ const main = async () => {
 
     // config for token to withdraw
     const token: Token = {
-        tokenMintAddress: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+        tokenMintAddress: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
         decimals: 6,
     };
 
@@ -31,7 +31,8 @@ const main = async () => {
     const withdrawParams: WithdrawParams = {
         token,
         withdrawer: userKeyPair.publicKey,
-        amount: '500000', // 0.5 USDC 
+        amount: '100000', // 0.1 USDC 
+        // receiver: new PublicKey('6jkCY6tJZrFAevso5798Qd36Pu1HxLZWS1Y2RXUS3DKz') // optional field 
     };
 
     // constructing and sending withdraw transaction
