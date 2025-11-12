@@ -30,6 +30,10 @@ const main = async () => {
     const config: DefiClientConfig = { encifherKey, rpcUrl };
     const defiClient = new DefiClient(config);
 
+    const mints = await defiClient.getUserTokenMints(userKeyPair.publicKey);
+    const userTokenMints = mints.map((mintObj) => mintObj.mint);
+    console.log('User token mints', userTokenMints);
+
     // fetch post-deposit balance
     try {
         const msgPayload = await defiClient.getMessageToSign();
@@ -38,7 +42,7 @@ const main = async () => {
         const userBalance = await defiClient.getBalance(
             userKeyPair.publicKey,
             { signature, ...msgPayload },
-            [usdc.tokenMintAddress, usdt.tokenMintAddress],
+            userTokenMints,
             encifherKey
         );
         console.log('User balances:', userBalance);
