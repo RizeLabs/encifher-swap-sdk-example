@@ -24,7 +24,7 @@ const main = async () => {
 
     // establishing connection and defi client
     const connection = new Connection(rpcUrl);
-    const config: DefiClientConfig = { encifherKey, rpcUrl };
+    const config: DefiClientConfig = { encifherKey, rpcUrl, mode: 'Mainnet'};
     const defiClient = new DefiClient(config);
 
     // params for withdrawing funds

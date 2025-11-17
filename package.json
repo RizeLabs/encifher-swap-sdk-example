@@ -6,7 +6,8 @@
         "balance": "ts-node src/fetchBalance.ts",
         "deposit": "ts-node src/deposit.ts",
         "withdraw": "ts-node src/withdraw.ts",
-        "swap": "ts-node src/swap.ts"
+        "swap": "ts-node src/swap.ts",
+        "transfer": "ts-node src/ownershipTransfer.ts"
     },
     "keywords": [],
     "author": "",
@@ -15,7 +16,7 @@
     "dependencies": {
         "bs58": "^6.0.0",
         "dotenv": "^17.2.0",
-        "encifher-swap-sdk": "^1.0.9",
+        "encifher-swap-sdk": "^1.1.0",
         "tweetnacl": "^1.0.3"
     },
     "devDependencies": {

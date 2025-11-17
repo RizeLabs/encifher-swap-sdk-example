@@ -27,7 +27,7 @@ const main = async () => {
     }
 
     // establishing defi client
-    const config: DefiClientConfig = { encifherKey, rpcUrl };
+    const config: DefiClientConfig = { encifherKey, rpcUrl, mode: 'Mainnet' };
     const defiClient = new DefiClient(config);
 
     const mints = await defiClient.getUserTokenMints(userKeyPair.publicKey);

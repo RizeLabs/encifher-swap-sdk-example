@@ -24,14 +24,14 @@ const main = async () => {
 
     // establishing connection and defi client
     const connection = new Connection(rpcUrl);
-    const config: DefiClientConfig = { encifherKey, rpcUrl };
+    const config: DefiClientConfig = { encifherKey, rpcUrl, mode: 'Mainnet' };
     const defiClient = new DefiClient(config);
 
     // params for depositing funds
     const depositParams: DepositParams = {
         token,
         depositor: userKeyPair.publicKey,
-        amount: '100000', // 0.1 USDC 
+        amount: '1000000', // 1 USDC 
     };
 
     // constructing and sending deposit transaction
